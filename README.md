@@ -23,6 +23,7 @@ services:
     ports:
       - "30120:30120/tcp"
       - "30120:30120/udp"
+    command: +exec server.cfg +set gamename rdr3
 ```
 
 ## Image based sample
