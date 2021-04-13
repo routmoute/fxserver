@@ -5,7 +5,7 @@ RUN apk add --no-cache libstdc++ ca-certificates curl
 
 WORKDIR /srv
 
-RUN curl https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/3795-4a38c57b18b6a12e2439d069eb7ae1853f0ad773/fx.tar.xz | tar xJ -C .
+RUN curl https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/3814-4be06ff27ea23286148b51ddebd044bca4f83d56/fx.tar.xz | tar xJ -C .
 
 EXPOSE 30120/tcp 30120/udp
 
