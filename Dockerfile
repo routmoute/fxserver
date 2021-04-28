@@ -5,5 +5,5 @@ RUN curl https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/3874
 FROM scratch
 COPY --from=dwnld /srv/alpine/. /.
 WORKDIR /opt/cfx-server
-EXPOSE 30120/tcp 30120/udp
+EXPOSE 30120/tcp 30120/udp 40120/tcp
 ENTRYPOINT ["sh", "run.sh"]
