@@ -8,7 +8,12 @@ FXServer for FiveM or RedM server
 
 ## Docker run sample
 
-`docker run -it -v /yourLocalServerFolder/server.cfg:/opt/cfx-server/server.cfg -v /yourLocalServerFolder/resources:/opt/cfx-server/resources routmoute/fxserver +exec server.cfg +set gamename rdr3`
+```sh
+docker run -it -p 30120:30120/tcp -p 30120:30120/udp \
+    -v /yourLocalServerFolder/server.cfg:/opt/cfx-server/server.cfg \
+    -v /yourLocalServerFolder/resources:/opt/cfx-server/resources \
+    routmoute/fxserver +exec server.cfg +set gamename rdr3
+```
 
 ## Docker compose sample
 
