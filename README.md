@@ -2,10 +2,6 @@
 
 FXServer for FiveM or RedM server
 
-## Changes
-
-* Since 3874n WORKDIR change from `/srv` to `/opt/cfx-server`
-
 ## Docker run sample
 
 ```sh
