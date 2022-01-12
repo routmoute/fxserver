@@ -4,10 +4,10 @@ on:
     inputs:
       optional:
         description: 'new optional version'
-        required: true
+        required: false
       recommended:
         description: 'new recommended version'
-        required: true
+        required: false
 jobs:
   test:
     name: test
