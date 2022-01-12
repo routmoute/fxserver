@@ -1,0 +1,9 @@
+name: New FXserver version released
+on: workflow_dispatch
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: test
+      run: echo "recommended=${{ github.event.inputs.recommended }}, optional=${{ github.event.inputs.optional }}"
