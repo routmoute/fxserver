@@ -24,9 +24,10 @@ jobs:
       with:
         fetch-depth: 0
     - name: Update Dockerfile
+      run: perl -i -pe 's,(?<=curl ).*(?= \|),${{ github.event.inputs.recommended_url }},' Dockerfile
     - name: Commit Dockerfile
       run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git commit -m "[Auto] New FXServer recommended & optional version: ${{ github.event.inputs.recommended }}" -a
     - uses: mukunku/tag-exists-action@v1.0.0
@@ -53,6 +54,7 @@ jobs:
     - name: Create recommended PR
       uses: peter-evans/create-pull-request@v3
       with:
+        author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
         branch: main
         delete-branch: true
         base: ${{ github.event.inputs.recommended }}
@@ -70,9 +72,10 @@ jobs:
       with:
         fetch-depth: 0
     - name: Update Dockerfile
+      run: perl -i -pe 's,(?<=curl ).*(?= \|),${{ github.event.inputs.optional_url }},' Dockerfile
     - name: Commit Dockerfile
       run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git commit -m "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}" -a
     - uses: mukunku/tag-exists-action@v1.0.0
@@ -90,6 +93,7 @@ jobs:
     - name: Create PR
       uses: peter-evans/create-pull-request@v3
       with:
+        author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
         branch: optional
         delete-branch: true
         base: ${{ github.event.inputs.optional }}
@@ -107,9 +111,10 @@ jobs:
       with:
         fetch-depth: 0
     - name: Modify Dockerfile
+      run: perl -i -pe 's,(?<=curl ).*(?= \|),${{ github.event.inputs.recommended_url }},' Dockerfile
     - name: Commit Dockerfile
       run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git commit -m "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}" -a
     - uses: mukunku/tag-exists-action@v1.0.0
@@ -127,6 +132,7 @@ jobs:
     - name: Create PR
       uses: peter-evans/create-pull-request@v3
       with:
+        author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
         branch: main
         delete-branch: true
         base: ${{ github.event.inputs.recommended }}
