@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: test
-      run: echo "${{ github.event.inputs }}"
+      run: echo "recommended=${{ github.event.inputs.recommended }}, optional=${{ github.event.inputs.optional }}"
