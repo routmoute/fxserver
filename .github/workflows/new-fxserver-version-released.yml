@@ -1,5 +1,13 @@
 name: New FXserver version released
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      optional:
+        description: 'new optional version'
+        required: true
+      recommended:
+        description: 'new recommended version'
+        required: true
 jobs:
   test:
     name: test
