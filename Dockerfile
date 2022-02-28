@@ -5,5 +5,6 @@ RUN curl https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/5181
 FROM scratch
 COPY --from=dwnld /srv/alpine/. /.
 WORKDIR /opt/cfx-server
+RUN sed -i 's/dcStatusMsgEltextContent/dcStatusMsgEl.textContent/g' ./citizen/system_resources/monitor/web/settings.html
 EXPOSE 30120/tcp 30120/udp 40120/tcp
 ENTRYPOINT ["/opt/cfx-server/FXServer"]
