@@ -32,9 +32,10 @@ jobs:
         git commit -m "[Auto] New FXServer recommended & optional version: ${{ github.event.inputs.recommended }}" -a
     - uses: mukunku/tag-exists-action@v1.0.0
       id: checkTag
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
         tag: ${{ github.event.inputs.recommended }}
-        github_token: ${{ github.token }}
     - name: Create tag
       if: steps.checkTag.outputs.exists == 'false'
       run: git tag ${{ github.event.inputs.recommended }}
@@ -82,9 +83,10 @@ jobs:
         git commit -m "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}" -a
     - uses: mukunku/tag-exists-action@v1.0.0
       id: checkTag
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
         tag: ${{ github.event.inputs.optional }}
-        github_token: ${{ github.token }}
     - name: Create tag
       if: steps.checkTag.outputs.exists == 'false'
       run: git tag ${{ github.event.inputs.optional }}
@@ -123,9 +125,10 @@ jobs:
         git commit -m "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}" -a
     - uses: mukunku/tag-exists-action@v1.0.0
       id: checkTag
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
         tag: ${{ github.event.inputs.recommended }}
-        github_token: ${{ github.token }}
     - name: Create tag
       if: steps.checkTag.outputs.exists == 'false'
       run: git tag ${{ github.event.inputs.recommended }}
