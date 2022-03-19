@@ -34,6 +34,7 @@ jobs:
       id: checkTag
       with:
         tag: ${{ github.event.inputs.recommended }}
+        github_token: ${{ github.token }}
     - name: Create tag
       if: steps.checkTag.outputs.exists == 'false'
       run: git tag ${{ github.event.inputs.recommended }}
@@ -41,6 +42,7 @@ jobs:
       uses: ad-m/github-push-action@v0.6.0
       with:
         branch: ${{ github.event.inputs.recommended }}
+        github_token: ${{ github.token }}
         tags: true
     - name: Create optional PR
       uses: peter-evans/create-pull-request@v3
@@ -82,12 +84,14 @@ jobs:
       id: checkTag
       with:
         tag: ${{ github.event.inputs.optional }}
+        github_token: ${{ github.token }}
     - name: Create tag
       if: steps.checkTag.outputs.exists == 'false'
       run: git tag ${{ github.event.inputs.optional }}
     - name: Push new branch
       uses: ad-m/github-push-action@v0.6.0
       with:
+        github_token: ${{ github.token }}
         branch: ${{ github.event.inputs.optional }}
         tags: true
     - name: Create PR
@@ -121,12 +125,14 @@ jobs:
       id: checkTag
       with:
         tag: ${{ github.event.inputs.recommended }}
+        github_token: ${{ github.token }}
     - name: Create tag
       if: steps.checkTag.outputs.exists == 'false'
       run: git tag ${{ github.event.inputs.recommended }}
     - name: Push new branch
       uses: ad-m/github-push-action@v0.6.0
       with:
+        github_token: ${{ github.token }}
         branch: ${{ github.event.inputs.recommended }}
         tags: true
     - name: Create PR
