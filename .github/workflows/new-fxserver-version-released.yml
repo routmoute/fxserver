@@ -62,24 +62,12 @@ jobs:
     needs: ["new-tag"]
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.inputs.recommended }}
-          ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - name: Create release branch for PR
-        run: |
-          git branch ${{ github.event.inputs.recommended }}
-          git checkout ${{ github.event.inputs.recommended }}
-      - name: Push release branch
-        run: git push --set-upstream origin refs/heads/${{ github.event.inputs.recommended }}
-      - name: Switch to relese branch
-        if: cancelled()
-        run: git checkout ${{ github.event.inputs.recommended }}
       - name: Create PR
-        if: always()
         uses: peter-evans/create-pull-request@v4
         with:
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           branch: ${{ github.event.inputs.recommended }}
+          branch-suffix: auto
           delete-branch: true
           base: recommended
           title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
@@ -93,24 +81,12 @@ jobs:
     needs: ["new-tag", "new-recommended"]
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.inputs.optional }}
-          ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - name: Create release branch for PR
-        run: |
-          git branch ${{ github.event.inputs.optional }}
-          git checkout ${{ github.event.inputs.optional }}
-      - name: Push release branch
-        run: git push --set-upstream origin refs/heads/${{ github.event.inputs.optional }}
-      - name: Switch to relese branch
-        if: cancelled()
-        run: git checkout ${{ github.event.inputs.optional }}
       - name: Create PR
-        if: always()
         uses: peter-evans/create-pull-request@v4
         with:
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           branch: ${{ github.event.inputs.optional }}
+          branch-suffix: auto
           delete-branch: true
           base: optional
           title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
