@@ -40,6 +40,7 @@ jobs:
         if: steps.checkTag.outputs.exists == 'false'
         run: perl -i -pe 's,(?<=curl ).*(?= \|),${{ github.event.inputs.latest_url }},' Dockerfile
       - name: Commit Dockerfile
+        if: steps.checkTag.outputs.exists == 'false'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -50,13 +51,13 @@ jobs:
       - name: Push new tag
         uses: ad-m/github-push-action@v0.6.0
         with:
-          github_token: ${{ github.token }}
           branch: main
           tags: true
   new-recommended:
     name: Create PR for recommended
     runs-on: ubuntu-latest
-    if: github.event.inputs.recommended
+    if: github.event.inputs.recommended && always()
+    needs: ["new-tag"]
     steps:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -70,7 +71,8 @@ jobs:
   new-optional:
     name: Create PR for optional
     runs-on: ubuntu-latest
-    if: github.event.inputs.optional
+    if: github.event.inputs.optional && always()
+    needs: ["new-tag"]
     steps:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
