@@ -62,8 +62,9 @@ jobs:
     needs: ["new-tag"]
     steps:
       - uses: actions/checkout@v3
-      - name: Switch to tag
-        run: git checkout ${{ github.event.inputs.recommended }}
+        with:
+          ref: tags/${{ github.event.inputs.recommended }}
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
       - name: Create release branch
         run: git branch ${{ github.event.inputs.recommended }}_auto
       - name: Switch to release branch
@@ -88,8 +89,9 @@ jobs:
     needs: ["new-tag", "new-recommended"]
     steps:
       - uses: actions/checkout@v3
-      - name: Switch to tag
-        run: git checkout ${{ github.event.inputs.optional }}
+        with:
+          ref: tags/${{ github.event.inputs.optional }}
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
       - name: Create release branch
         run: git branch ${{ github.event.inputs.optional }}_auto
       - name: Switch to release branch
