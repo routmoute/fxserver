@@ -70,10 +70,12 @@ jobs:
         if: always()
         run: git checkout ${{ github.event.inputs.recommended }}_auto
       - name: Push new release branch
-        run: git push --set-upstream origin ${{ github.event.inputs.optional }}_auto
+        run: git push --set-upstream origin ${{ github.event.inputs.recommended }}_auto
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
+          base: recommended
+          branch: ${{ github.event.inputs.recommended }}_auto
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
           body: ""
@@ -98,6 +100,8 @@ jobs:
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
+          base: optional
+          branch: ${{ github.event.inputs.optional }}_auto
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
           body: ""
