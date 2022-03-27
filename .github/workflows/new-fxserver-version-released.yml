@@ -71,15 +71,21 @@ jobs:
           git checkout ${{ github.event.inputs.recommended }}
       - name: Push release branch
         run: git push --set-upstream origin refs/heads/${{ github.event.inputs.recommended }}
+      - name: Switch to relese branch
+        if: cancelled()
+        run: git checkout ${{ github.event.inputs.recommended }}
       - name: Create PR
         if: always()
         uses: peter-evans/create-pull-request@v4
         with:
-          branch: recommended
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          branch: ${{ github.event.inputs.recommended }}
           delete-branch: true
+          base: recommended
           title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
           body: ""
           assignees: routmoute
+          reviewers: routmoute
   new-optional:
     name: Create PR for optional
     runs-on: ubuntu-latest
@@ -96,12 +102,18 @@ jobs:
           git checkout ${{ github.event.inputs.optional }}
       - name: Push release branch
         run: git push --set-upstream origin refs/heads/${{ github.event.inputs.optional }}
+      - name: Switch to relese branch
+        if: cancelled()
+        run: git checkout ${{ github.event.inputs.optional }}
       - name: Create PR
         if: always()
         uses: peter-evans/create-pull-request@v4
         with:
-          branch: optional
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          branch: ${{ github.event.inputs.optional }}
           delete-branch: true
+          base: optional
           title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
           body: ""
           assignees: routmoute
+          reviewers: routmoute
