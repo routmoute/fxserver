@@ -62,8 +62,8 @@ jobs:
     needs: ["new-tag"]
     steps:
       - uses: actions/checkout@v3
-      - name: Move to release branch or tag
-        run: git checkout ${{ github.event.inputs.recommended }}
+        with:
+          ref: ${{ github.event.inputs.recommended }}
       - name: Create release branch for PR
         run: |
           git branch ${{ github.event.inputs.recommended }}
@@ -71,6 +71,7 @@ jobs:
       - name: Push release branch
         run: git push
       - name: Create PR
+        if: always()
         uses: peter-evans/create-pull-request@v4
         with:
           base: recommended
@@ -86,8 +87,8 @@ jobs:
     needs: ["new-tag", "new-recommended"]
     steps:
       - uses: actions/checkout@v3
-      - name: Move to release branch or tag
-        run: git checkout ${{ github.event.inputs.optional }}
+        with:
+          ref: ${{ github.event.inputs.optional }}
       - name: Create release branch for PR
         run: |
           git branch ${{ github.event.inputs.optional }}
@@ -95,6 +96,7 @@ jobs:
       - name: Push release branch
         run: git push
       - name: Create PR
+        if: always()
         uses: peter-evans/create-pull-request@v4
         with:
           base: optional
