@@ -63,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.recommended }}
+          ref: "${{ github.event.inputs.recommended }}"
           ssh-key: "${{ secrets.COMMIT_KEY }}"
       - name: Create release branch
         run: git branch ${{ github.event.inputs.recommended }}_auto
@@ -90,7 +90,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.optional }}
+          ref: "${{ github.event.inputs.optional }}"
           ssh-key: "${{ secrets.COMMIT_KEY }}"
       - name: Create release branch
         run: git branch ${{ github.event.inputs.optional }}_auto
