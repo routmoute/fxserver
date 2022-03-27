@@ -61,8 +61,9 @@ jobs:
     if: github.event.inputs.recommended && always()
     needs: ["new-tag"]
     steps:
+      - uses: actions/checkout@v3
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           base: ${{ github.event.inputs.recommended }}
           branch: recommended
@@ -76,8 +77,9 @@ jobs:
     if: github.event.inputs.optional && always()
     needs: ["new-tag"]
     steps:
+      - uses: actions/checkout@v3
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           base: ${{ github.event.inputs.optional }}
           branch: optional
