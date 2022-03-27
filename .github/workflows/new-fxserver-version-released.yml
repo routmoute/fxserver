@@ -69,6 +69,8 @@ jobs:
       - name: Switch to release branch
         if: always()
         run: git checkout ${{ github.event.inputs.recommended }}_auto
+      - name: Push new release branch
+        run: git push --set-upstream origin ${{ github.event.inputs.optional }}_auto
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
@@ -93,6 +95,8 @@ jobs:
       - name: Switch to release branch
         if: always()
         run: git checkout ${{ github.event.inputs.optional }}_auto
+      - name: Push new release branch
+        run: git push --set-upstream origin ${{ github.event.inputs.optional }}_auto
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
