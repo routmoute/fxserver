@@ -39,20 +39,20 @@ jobs:
       - name: Update Dockerfile
         if: steps.checkTag.outputs.exists == 'false'
         run: perl -i -pe 's,(?<=curl ).*(?= \|),${{ github.event.inputs.latest_url }},' Dockerfile
-      - name: Commit Dockerfile
+      - name: Configure Git
         if: steps.checkTag.outputs.exists == 'false'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -m "[Auto] New FXServer version: ${{ github.event.inputs.latest }}" -a
+      - name: Commit Dockerfile
+        if: steps.checkTag.outputs.exists == 'false'
+        run: "git commit -m '[Auto] New FXServer version: ${{ github.event.inputs.latest }}' -a"
       - name: Create tag
         if: steps.checkTag.outputs.exists == 'false'
         run: git tag ${{ github.event.inputs.latest }}
       - name: Push new tag
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          branch: main
-          tags: true
+        if: steps.checkTag.outputs.exists == 'false'
+        run: git push
   new-recommended:
     name: Create PR for recommended
     runs-on: ubuntu-latest
