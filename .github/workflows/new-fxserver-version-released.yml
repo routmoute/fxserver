@@ -64,6 +64,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.recommended }}
+      - name: Create release branch
+        run: git branch -d ${{ github.event.inputs.recommended }}_auto
+      - name: Switch to release branch
+        if: always()
+        run: git checkout ${{ github.event.inputs.recommended }}_auto
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
@@ -83,6 +88,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.optional }}
+      - name: Create release branch
+        run: git branch -d ${{ github.event.inputs.optional }}_auto
+      - name: Switch to release branch
+        if: always()
+        run: git checkout ${{ github.event.inputs.optional }}_auto
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
