@@ -62,6 +62,8 @@ jobs:
     needs: ["new-tag"]
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.recommended }}
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
@@ -80,6 +82,8 @@ jobs:
     needs: ["new-tag", "new-recommended"]
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.optional }}
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
