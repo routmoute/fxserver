@@ -66,17 +66,17 @@ jobs:
           ref: "${{ github.event.inputs.recommended }}"
           ssh-key: "${{ secrets.COMMIT_KEY }}"
       - name: Create release branch
-        run: git branch ${{ github.event.inputs.recommended }}_auto
+        run: git branch ${{ github.event.inputs.recommended }}_to_recommended
       - name: Switch to release branch
         if: always()
-        run: git checkout ${{ github.event.inputs.recommended }}_auto
+        run: git checkout ${{ github.event.inputs.recommended }}_to_recommended
       - name: Push new release branch
-        run: git push --set-upstream origin ${{ github.event.inputs.recommended }}_auto
+        run: git push --set-upstream origin ${{ github.event.inputs.recommended }}_to_recommended
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
           base: recommended
-          branch: ${{ github.event.inputs.recommended }}_auto
+          branch: ${{ github.event.inputs.recommended }}_to_recommended
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
           body: ""
@@ -93,17 +93,16 @@ jobs:
           ref: "${{ github.event.inputs.optional }}"
           ssh-key: "${{ secrets.COMMIT_KEY }}"
       - name: Create release branch
-        run: git branch ${{ github.event.inputs.optional }}_auto
+        run: git branch ${{ github.event.inputs.optional }}_to_optional
       - name: Switch to release branch
         if: always()
-        run: git checkout ${{ github.event.inputs.optional }}_auto
+        run: git checkout ${{ github.event.inputs.optional }}_to_optional
       - name: Push new release branch
-        run: git push --set-upstream origin ${{ github.event.inputs.optional }}_auto
+        run: git push --set-upstream origin ${{ github.event.inputs.optional }}_to_optional
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
           base: optional
-          branch: ${{ github.event.inputs.optional }}_auto
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
           body: ""
