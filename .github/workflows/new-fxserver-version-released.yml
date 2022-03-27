@@ -52,7 +52,7 @@ jobs:
         run: git tag ${{ github.event.inputs.latest }}
       - name: Push new tag
         if: steps.checkTag.outputs.exists == 'false'
-        run: git push
+        run: git push --tags
   new-recommended:
     name: Create PR for recommended
     runs-on: ubuntu-latest
