@@ -88,7 +88,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-          branch: ${{ github.event.inputs.optional }}
+          branch: ${{ github.event.inputs.optional }}_auto
           delete-branch: true
           base: optional
           title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
