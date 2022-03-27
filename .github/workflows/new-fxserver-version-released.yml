@@ -62,17 +62,6 @@ jobs:
     needs: ["new-tag"]
     steps:
       - uses: actions/checkout@v3
-        with:
-          ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          base: ${{ github.event.inputs.recommended }}
-          branch: recommended
-          delete-branch: true
-          title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
-          body: ""
-          assignees: routmoute
   new-optional:
     name: Create PR for optional
     runs-on: ubuntu-latest
@@ -80,14 +69,3 @@ jobs:
     needs: ["new-tag"]
     steps:
       - uses: actions/checkout@v3
-        with:
-          ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          base: ${{ github.event.inputs.optional }}
-          branch: optional
-          delete-branch: true
-          title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
-          body: ""
-          assignees: routmoute
