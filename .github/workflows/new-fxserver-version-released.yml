@@ -1,0 +1,82 @@
+name: New FXserver version released
+on:
+  workflow_dispatch:
+    inputs:
+      optional:
+        description: 'new optional version'
+        required: false
+      optional_url:
+        description: 'optional version url'
+        required: false
+      recommended:
+        description: 'new recommended version'
+        required: false
+      recommended_url:
+        description: 'recommended version url'
+        required: false
+      latest:
+        description: 'new latest version'
+        required: false
+      latest_url:
+        description: 'latest version url'
+        required: false
+jobs:
+  new-tag:
+    name: Update Tag
+    runs-on: ubuntu-latest
+    if: github.event.inputs.latest && github.event.inputs.latest_url
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: mukunku/tag-exists-action@v1.0.0
+        id: checkTag
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag: ${{ github.event.inputs.latest }}
+      - name: Update Dockerfile
+        if: steps.checkTag.outputs.exists == 'false'
+        run: perl -i -pe 's,(?<=curl ).*(?= \|),${{ github.event.inputs.latest_url }},' Dockerfile
+      - name: Commit Dockerfile
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "[Auto] New FXServer version: ${{ github.event.inputs.latest }}" -a
+      - name: Create tag
+        if: steps.checkTag.outputs.exists == 'false'
+        run: git tag ${{ github.event.inputs.latest }}
+      - name: Push new tag
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ github.token }}
+          branch: main
+          tags: true
+  new-recommended:
+    name: Create PR for recommended
+    runs-on: ubuntu-latest
+    if: github.event.inputs.recommended
+    steps:
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: ${{ github.event.inputs.recommended }}
+          branch: recommended
+          delete-branch: true
+          title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
+          body: ""
+          assignees: routmoute
+  new-optional:
+    name: Create PR for optional
+    runs-on: ubuntu-latest
+    if: github.event.inputs.optional
+    steps:
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: ${{ github.event.inputs.optional }}
+          branch: optional
+          delete-branch: true
+          title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
+          body: ""
+          assignees: routmoute
