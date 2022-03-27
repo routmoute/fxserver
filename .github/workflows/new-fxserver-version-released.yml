@@ -62,10 +62,44 @@ jobs:
     needs: ["new-tag"]
     steps:
       - uses: actions/checkout@v3
+      - name: Move to release branch or tag
+        run: git checkout ${{ github.event.inputs.recommended }}
+      - name: Create release branch for PR
+        run: |
+          git branch ${{ github.event.inputs.recommended }}
+          git checkout ${{ github.event.inputs.recommended }}
+      - name: Push release branch
+        run: git push
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          base: recommended
+          branch: ${{ github.event.inputs.recommended }}
+          delete-branch: true
+          title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
+          body: ""
+          assignees: routmoute
   new-optional:
     name: Create PR for optional
     runs-on: ubuntu-latest
     if: github.event.inputs.optional && always()
-    needs: ["new-tag"]
+    needs: ["new-tag", "new-recommended"]
     steps:
       - uses: actions/checkout@v3
+      - name: Move to release branch or tag
+        run: git checkout ${{ github.event.inputs.optional }}
+      - name: Create release branch for PR
+        run: |
+          git branch ${{ github.event.inputs.optional }}
+          git checkout ${{ github.event.inputs.optional }}
+      - name: Push release branch
+        run: git push
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          base: optional
+          branch: ${{ github.event.inputs.optional }}
+          delete-branch: true
+          title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
+          body: ""
+          assignees: routmoute
