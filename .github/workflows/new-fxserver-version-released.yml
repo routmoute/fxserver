@@ -77,6 +77,7 @@ jobs:
         with:
           base: recommended
           branch: ${{ github.event.inputs.recommended }}_to_recommended
+          delete-branch: true
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
           body: ""
@@ -103,6 +104,8 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           base: optional
+          branch: ${{ github.event.inputs.recommended }}_to_optional
+          delete-branch: true
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
           body: ""
