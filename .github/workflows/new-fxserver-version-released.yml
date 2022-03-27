@@ -65,7 +65,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.recommended }}
       - name: Create release branch
-        run: git branch -d ${{ github.event.inputs.recommended }}_auto
+        run: git branch ${{ github.event.inputs.recommended }}_auto
       - name: Switch to release branch
         if: always()
         run: git checkout ${{ github.event.inputs.recommended }}_auto
@@ -89,7 +89,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.optional }}
       - name: Create release branch
-        run: git branch -d ${{ github.event.inputs.optional }}_auto
+        run: git branch ${{ github.event.inputs.optional }}_auto
       - name: Switch to release branch
         if: always()
         run: git checkout ${{ github.event.inputs.optional }}_auto
