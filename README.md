@@ -2,7 +2,17 @@
 
 FXServer for FiveM or RedM server
 
-## Docker run sample
+## Tags
+
+it's recommended to use `recommended` tag to use recommended FXServer version.
+
+- `recommended`
+- `optional`
+- `latest`
+
+## Exemple
+
+### Docker run
 
 ```sh
 docker run -it -p 30120:30120/tcp -p 30120:30120/udp \
@@ -11,7 +21,7 @@ docker run -it -p 30120:30120/tcp -p 30120:30120/udp \
     routmoute/fxserver:recommended +exec server.cfg +set gamename rdr3
 ```
 
-## Docker compose sample
+### Docker-compose
 
 ```yaml
 version: "3.8"
@@ -30,7 +40,7 @@ services:
     command: +exec server.cfg +set gamename rdr3
 ```
 
-## Image based sample
+### Image based
 
 ```dockerfile
 FROM routmoute/fxserver:recommended
