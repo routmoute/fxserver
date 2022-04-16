@@ -10,7 +10,7 @@ it's recommended to use `recommended` tag to use recommended FXServer version.
 - `optional`
 - `latest`
 
-## Exemple
+## Examples
 
 ### Docker run
 
