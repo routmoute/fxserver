@@ -6,9 +6,9 @@ FXServer for FiveM or RedM server
 
 it's recommended to use `recommended` tag to use recommended FXServer version.
 
-- `recommended`
-- `optional`
-- `latest`
+- [`recommended`](https://github.com/routmoute/fxserver/tree/recommended)
+- [`optional`](https://github.com/routmoute/fxserver/tree/optional)
+- [`latest`](https://github.com/routmoute/fxserver/tree/main)
 
 ## Examples
 
