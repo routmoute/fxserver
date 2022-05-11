@@ -26,9 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.inputs.latest && github.event.inputs.latest_url
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
       - uses: mukunku/tag-exists-action@v1.0.0
         id: checkTag
         env:
@@ -38,45 +39,81 @@ jobs:
       - name: Update Dockerfile
         if: steps.checkTag.outputs.exists == 'false'
         run: perl -i -pe 's,(?<=curl ).*(?= \|),${{ github.event.inputs.latest_url }},' Dockerfile
-      - name: Commit Dockerfile
+      - name: Configure Git
+        if: steps.checkTag.outputs.exists == 'false'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -m "[Auto] New FXServer version: ${{ github.event.inputs.latest }}" -a
+      - name: Commit Dockerfile
+        if: steps.checkTag.outputs.exists == 'false'
+        run: "git commit -m '[Auto] New FXServer version: ${{ github.event.inputs.latest }}' -a"
       - name: Create tag
         if: steps.checkTag.outputs.exists == 'false'
         run: git tag ${{ github.event.inputs.latest }}
       - name: Push new tag
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ github.token }}
-          branch: main
-          tags: true
+        if: steps.checkTag.outputs.exists == 'false'
+        run: |
+          git push
+          git push origin ${{ github.event.inputs.latest }}
   new-recommended:
     name: Create PR for recommended
     runs-on: ubuntu-latest
-    if: github.event.inputs.recommended
+    if: github.event.inputs.recommended && always()
+    needs: ["new-tag"]
     steps:
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+      - uses: actions/checkout@v3
         with:
-          base: ${{ github.event.inputs.recommended }}
-          branch: recommended
+          ref: "${{ github.event.inputs.recommended }}"
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
+      - name: Create release branch
+        run: git branch ${{ github.event.inputs.recommended }}_to_recommended
+      - name: Switch to release branch
+        if: always()
+        run: git checkout ${{ github.event.inputs.recommended }}_to_recommended
+      - name: Push new release branch
+        run: git push --set-upstream origin ${{ github.event.inputs.recommended }}_to_recommended
+      - name: Switch to recommended
+        uses: actions/checkout@v3
+        with:
+          ref: "recommended"
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: ${{ github.event.inputs.recommended }}_to_recommended
           delete-branch: true
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
           body: ""
           assignees: routmoute
+          reviewers: routmoute
   new-optional:
     name: Create PR for optional
     runs-on: ubuntu-latest
-    if: github.event.inputs.optional
+    if: github.event.inputs.optional && always()
+    needs: ["new-tag", "new-recommended"]
     steps:
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+      - uses: actions/checkout@v3
         with:
-          base: ${{ github.event.inputs.optional }}
-          branch: optional
+          ref: "${{ github.event.inputs.optional }}"
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
+      - name: Create release branch
+        run: git branch ${{ github.event.inputs.optional }}_to_optional
+      - name: Switch to release branch
+        if: always()
+        run: git checkout ${{ github.event.inputs.optional }}_to_optional
+      - name: Push new release branch
+        run: git push --set-upstream origin ${{ github.event.inputs.optional }}_to_optional
+      - name: Switch to optional
+        uses: actions/checkout@v3
+        with:
+          ref: "optional"
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: ${{ github.event.inputs.optional }}_to_optional
           delete-branch: true
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
           body: ""
           assignees: routmoute
+          reviewers: routmoute
