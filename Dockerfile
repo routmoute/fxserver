@@ -4,8 +4,8 @@ RUN curl https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/6039
 
 FROM scratch
 COPY --from=dwnld /srv/alpine/. /.
-RUN mkdir /txData && chown 1000:1000 /txData
-RUN addgroup -S --gid 1000 cfx && adduser -S --uid 1000 cfx -G cfx
+RUN addgroup -S cfx && adduser -S cfx -G cfx
+RUN mkdir /txData && chown cfx:cfx /txData
 USER cfx
 WORKDIR /opt/cfx-server
 EXPOSE 30120/tcp 30120/udp 40120/tcp
