@@ -30,10 +30,8 @@ jobs:
         with:
           fetch-depth: 0
           ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - uses: mukunku/tag-exists-action@v1.0.0
+      - uses: mukunku/tag-exists-action@v1.2.0
         id: checkTag
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         with:
           tag: ${{ github.event.inputs.latest }}
       - name: Update Dockerfile
