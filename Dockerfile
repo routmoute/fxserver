@@ -6,7 +6,7 @@ FROM scratch
 COPY --from=dwnld /srv/alpine/. /.
 COPY --from=alpine / /
 RUN apk update --no-cache && apk upgrade --no-cache
-RUN addgroup -S cfx && adduser -S cfx -G cfx
+RUN addgroup -g 1000 -S cfx && adduser -u 1000 -S cfx -G cfx
 RUN mkdir /txData && chown cfx:cfx /txData
 USER cfx
 WORKDIR /opt/cfx-server
