@@ -30,10 +30,8 @@ jobs:
         with:
           fetch-depth: 0
           ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - uses: mukunku/tag-exists-action@v1.0.0
+      - uses: mukunku/tag-exists-action@v1.2.0
         id: checkTag
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         with:
           tag: ${{ github.event.inputs.latest }}
       - name: Update Dockerfile
@@ -72,20 +70,20 @@ jobs:
         run: git checkout ${{ github.event.inputs.recommended }}_to_recommended
       - name: Push new release branch
         run: git push --set-upstream origin ${{ github.event.inputs.recommended }}_to_recommended
-      - name: Switch to recommended
-        uses: actions/checkout@v3
-        with:
-          ref: "recommended"
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v4
-        with:
-          branch: ${{ github.event.inputs.recommended }}_to_recommended
-          delete-branch: true
-          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-          title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
-          body: ""
-          assignees: routmoute
-          reviewers: routmoute
+#      - name: Switch to recommended
+#        uses: actions/checkout@v3
+#        with:
+#          ref: "recommended"
+#      - name: Create PR
+#        uses: peter-evans/create-pull-request@v4
+#        with:
+#          branch: ${{ github.event.inputs.recommended }}_to_recommended
+#          delete-branch: true
+#          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+#          title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
+#          body: ""
+#          assignees: routmoute
+#          reviewers: routmoute
   new-optional:
     name: Create PR for optional
     runs-on: ubuntu-latest
@@ -103,17 +101,17 @@ jobs:
         run: git checkout ${{ github.event.inputs.optional }}_to_optional
       - name: Push new release branch
         run: git push --set-upstream origin ${{ github.event.inputs.optional }}_to_optional
-      - name: Switch to optional
-        uses: actions/checkout@v3
-        with:
-          ref: "optional"
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v4
-        with:
-          branch: ${{ github.event.inputs.optional }}_to_optional
-          delete-branch: true
-          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-          title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
-          body: ""
-          assignees: routmoute
-          reviewers: routmoute
+#      - name: Switch to optional
+#        uses: actions/checkout@v3
+#        with:
+#          ref: "optional"
+#      - name: Create PR
+#        uses: peter-evans/create-pull-request@v4
+#        with:
+#          branch: ${{ github.event.inputs.optional }}_to_optional
+#          delete-branch: true
+#          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+#          title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
+#          body: ""
+#          assignees: routmoute
+#          reviewers: routmoute
