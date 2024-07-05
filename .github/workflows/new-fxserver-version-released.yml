@@ -26,11 +26,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.inputs.latest && github.event.inputs.latest_url
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - uses: mukunku/tag-exists-action@v1.2.0
+      - uses: mukunku/tag-exists-action@v1.6.0
         id: checkTag
         with:
           tag: ${{ github.event.inputs.latest }}
@@ -59,7 +59,7 @@ jobs:
     if: github.event.inputs.recommended && always()
     needs: ["new-tag"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: "${{ github.event.inputs.recommended }}"
           ssh-key: "${{ secrets.COMMIT_KEY }}"
@@ -71,7 +71,7 @@ jobs:
       - name: Push new release branch
         run: git push --set-upstream origin ${{ github.event.inputs.recommended }}_to_recommended
 #      - name: Switch to recommended
-#        uses: actions/checkout@v3
+#        uses: actions/checkout@v4
 #        with:
 #          ref: "recommended"
 #      - name: Create PR
@@ -90,7 +90,7 @@ jobs:
     if: github.event.inputs.optional && always()
     needs: ["new-tag", "new-recommended"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: "${{ github.event.inputs.optional }}"
           ssh-key: "${{ secrets.COMMIT_KEY }}"
@@ -102,7 +102,7 @@ jobs:
       - name: Push new release branch
         run: git push --set-upstream origin ${{ github.event.inputs.optional }}_to_optional
 #      - name: Switch to optional
-#        uses: actions/checkout@v3
+#        uses: actions/checkout@v4
 #        with:
 #          ref: "optional"
 #      - name: Create PR
