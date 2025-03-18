@@ -4,7 +4,7 @@ RUN curl https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/1354
 
 FROM scratch
 COPY --from=dwnld /srv/alpine/. /.
-RUN apk update --no-cache && apk upgrade --no-cache --force-overwrite
+RUN apk update --no-cache && apk upgrade --no-cache --force-overwrite && apk --no-cache add ca-certificates
 RUN addgroup -g 1000 -S cfx && adduser -u 1000 -S cfx -G cfx
 RUN mkdir /txData && chown cfx:cfx /txData
 USER cfx
