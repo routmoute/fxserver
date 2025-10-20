@@ -10,4 +10,4 @@ RUN mkdir /txData && chown cfx:cfx /txData
 USER cfx
 WORKDIR /opt/cfx-server
 EXPOSE 30120/tcp 30120/udp 40120/tcp
-ENTRYPOINT ["/opt/cfx-server/ld-musl-x86_64.so.1", "FXServer"]
+ENTRYPOINT ["/opt/cfx-server/ld-musl-x86_64.so.1", "FXServer", "+set citizen_dir /opt/cfx-server/citizen/"]
