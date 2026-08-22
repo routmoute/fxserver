@@ -2,12 +2,6 @@ name: New FXserver version released
 on:
   workflow_dispatch:
     inputs:
-      optional:
-        description: 'new optional version'
-        required: false
-      optional_url:
-        description: 'optional version url'
-        required: false
       recommended:
         description: 'new recommended version'
         required: false
@@ -26,11 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.inputs.latest && github.event.inputs.latest_url
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - uses: mukunku/tag-exists-action@v1.6.0
+      - uses: mukunku/tag-exists-action@v1.7.0
         id: checkTag
         with:
           tag: ${{ github.event.inputs.latest }}
@@ -59,7 +53,7 @@ jobs:
     if: github.event.inputs.recommended && always()
     needs: ["new-tag"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: "${{ github.event.inputs.recommended }}"
           ssh-key: "${{ secrets.COMMIT_KEY }}"
@@ -81,37 +75,6 @@ jobs:
 #          delete-branch: true
 #          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
 #          title: "[Auto] New FXServer recommended version: ${{ github.event.inputs.recommended }}"
-#          body: ""
-#          assignees: routmoute
-#          reviewers: routmoute
-  new-optional:
-    name: Create PR for optional
-    runs-on: ubuntu-latest
-    if: github.event.inputs.optional && always()
-    needs: ["new-tag", "new-recommended"]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: "${{ github.event.inputs.optional }}"
-          ssh-key: "${{ secrets.COMMIT_KEY }}"
-      - name: Create release branch
-        run: git branch ${{ github.event.inputs.optional }}_to_optional
-      - name: Switch to release branch
-        if: always()
-        run: git checkout ${{ github.event.inputs.optional }}_to_optional
-      - name: Push new release branch
-        run: git push --set-upstream origin ${{ github.event.inputs.optional }}_to_optional
-#      - name: Switch to optional
-#        uses: actions/checkout@v4
-#        with:
-#          ref: "optional"
-#      - name: Create PR
-#        uses: peter-evans/create-pull-request@v4
-#        with:
-#          branch: ${{ github.event.inputs.optional }}_to_optional
-#          delete-branch: true
-#          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-#          title: "[Auto] New FXServer optional version: ${{ github.event.inputs.optional }}"
 #          body: ""
 #          assignees: routmoute
 #          reviewers: routmoute
