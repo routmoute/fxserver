@@ -87,3 +87,7 @@ CMD ["+exec", "server.cfg", "+set", "gamename", "rdr3"]
 
 ### TXAdmin
 To access TXAdmin Interface, you need to add `40120:40120/tcp` port.
+
+### Deploy on Sealos
+
+For a community-maintained FiveM deployment using this image, see the [Sealos guide](docs/sealos.md) for txAdmin setup, persistent storage, public game ports, and current validation coverage.
